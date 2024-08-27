@@ -1,10 +1,17 @@
 package org.example.util;
 
 
-import java.io.File;
-import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import org.example.objects.Account;
+
+import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 public class GsonUtil {
     public static void checkForExistingFiles() {
@@ -19,5 +26,31 @@ public class GsonUtil {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public static <T> List loadFile(String filename, Class<T> input) throws FileNotFoundException {
+        Gson gson = new GsonBuilder().create();
+        Type listType = TypeToken.getParameterized(List.class, input).getType();
+        FileReader reader = new FileReader(filename);
+        return gson.fromJson(reader, listType);
+    }
+
+    public static <K, V> Map<K, V> loadMap(String filename, Class<String> keyClass, Class<Account> valueClass) throws FileNotFoundException {
+        Gson gson = new GsonBuilder().create();
+
+        Type mapType = TypeToken.getParameterized(Map.class, keyClass, TypeToken.getParameterized(List.class, valueClass).getType()).getType();
+
+        FileReader reader = new FileReader(filename);
+        return gson.fromJson(reader, mapType);
+    }
+
+    public static <T> void writeListToFile(String filename, List<T> list) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        FileWriter writer = new FileWriter(filename);
+    }
+
+    public static <K, V> void writeMapToFile(String filename, Map<K, V> map) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        FileWriter writer = new FileWriter(filename);
     }
 }

@@ -4,27 +4,24 @@ import java.util.Date;
 
 public class Account {
     private String name;
-    private int balance;
-    private Date creationDate;
-    private String owner;
+    private double balance;
+    private long creationDate;
 
-    public Account (String name, int balance, Date creationDate, String owner){
+    public Account(String name, double balance, long creationDate) {
         this.name = name;
         this.balance = balance;
         this.creationDate = creationDate;
-        this.owner = owner;
     }
 
-    public Date getCreationDate() {
+    public long getCreationDate() {
         return creationDate;
     }
-    public int getBalance() {
+
+    public double getBalance() {
         return balance;
     }
+
     public String getName() {
         return name;
-    }
-    public String getOwner() {
-        return owner;
     }
 }
