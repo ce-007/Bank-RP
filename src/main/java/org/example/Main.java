@@ -12,10 +12,16 @@ public class Main {
         GsonUtil.checkForExistingFiles();
 
         List<User> users = GsonUtil.loadFile("run/data/users.json", User.class);
-        GsonUtil.writeListToFile("run/data/users.json", users);
-
-
         Map<String, List<Account>> map = GsonUtil.loadMap("run/data/accounts.json", String.class, Account.class);
+
+        if (map == null) {
+            map = new HashMap<>();
+        }
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+
+        GsonUtil.writeListToFile("run/data/users.json", users);
         GsonUtil.writeMapToFile("run/data/accounts.json", map);
     }
 }

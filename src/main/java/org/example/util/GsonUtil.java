@@ -46,11 +46,15 @@ public class GsonUtil {
 
     public static <T> void writeListToFile(String filename, List<T> list) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileWriter writer = new FileWriter(filename);
+        try (FileWriter writer = new FileWriter(filename)) {
+            gson.toJson(list, writer);
+        }
     }
 
     public static <K, V> void writeMapToFile(String filename, Map<K, V> map) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileWriter writer = new FileWriter(filename);
+        try (FileWriter writer = new FileWriter(filename)) {
+            gson.toJson(map, writer);
+        }
     }
 }
